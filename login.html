@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion - GénérAction</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+    }
+
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    .auth-box {
+      background: #fff;
+      padding: 2em 3em;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .auth-box h2 {
+      margin-bottom: 1.5em;
+      text-align: center;
+    }
+
+    .auth-box form {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+
+    .auth-box label {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .auth-box input {
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-top: 0.3em;
+    }
+
+    .auth-box button {
+      padding: 0.8em;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .auth-box button:hover {
+      background-color: #0056b3;
+    }
+
+    .auth-box .error {
+      color: red;
+      font-size: 0.9em;
+    }
+
+    .auth-box .switch {
+      text-align: center;
+      margin-top: 1em;
+    }
+  </style>
+  <script defer src="script.js"></script>
+</head>
+<body class="auth-wrapper">
+  <header>
+    <img src="generaction.png" alt="Logo Généraction" class="logo">
+  </header>
+
+  <main class="auth-container">
+    <div class="auth-box">
+      <h2>Connexion</h2>
+      <form id="loginForm">
+        <label>
+          Nom d'utilisateur
+          <input type="text" id="username" required>
+        </label>
+        <label>
+          Mot de passe
+          <input type="password" id="password" required>
+        </label>
+        <button type="submit">Se connecter</button>
+        <p class="error" id="loginError"></p>
+      </form>
+      <div class="switch">
+        <p>Pas encore de compte ? <a href="register.html">Créer un compte</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 GénérAction</p>
+  </footer>
+</body>
+</html>
