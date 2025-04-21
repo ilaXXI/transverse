@@ -1,123 +1,106 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription - GénérAction</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .auth-wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
-    }
-
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-    }
-
-    .auth-box {
-      background: #fff;
-      padding: 2em 3em;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 450px;
-    }
-
-    .auth-box h2 {
-      margin-bottom: 1.5em;
-      text-align: center;
-    }
-
-    .auth-box form {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-    }
-
-    .auth-box label {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-
-    .auth-box input, .auth-box select {
-      padding: 0.6em;
-      font-size: 1em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-top: 0.3em;
-    }
-
-    .auth-box button {
-      padding: 0.8em;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-
-    .auth-box button:hover {
-      background-color: #0056b3;
-    }
-
-    .auth-box .switch {
-      text-align: center;
-      margin-top: 1em;
-    }
-  </style>
-  <script>
-    function handleRegister(event) {
-      event.preventDefault();
-      window.location.href = "login.html";
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - GenerAction</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-wrapper">
-  <header>
-    <img src="generaction.png" alt="Logo Généraction" class="logo">
-  </header>
+<body class="auth-page">
+    <header>
+        <div class="header-content">
+            <a href="register.html">
+                <img src="logo.png" alt="GenerAction" class="logo">
+            </a>
+        </div>
+    </header>
 
-  <main class="auth-container">
-    <div class="auth-box">
-      <h2>Créer un compte</h2>
-      <form onsubmit="handleRegister(event)">
-        <label>
-          Nom complet
-          <input type="text" required>
-        </label>
-        <label>
-          Email
-          <input type="email" required>
-        </label>
-        <label>
-          Mot de passe
-          <input type="password" required>
-        </label>
-        <label>
-          Type de compte
-          <select required>
-            <option value="">-- Sélectionnez --</option>
-            <option value="senior">Senior</option>
-            <option value="benevole">Bénévole</option>
-          </select>
-        </label>
-        <button type="submit">S'inscrire</button>
-      </form>
-      <div class="switch">
-        <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
-      </div>
-    </div>
-  </main>
+    <main class="auth-container">
+        <div class="auth-box">
+            <h1>Rejoignez GenerAction</h1>
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="userType">Je suis</label>
+                    <select id="userType" name="userType" required class="form-select">
+                        <option value="">Choisissez votre profil</option>
+                        <option value="senior">Une personne senior</option>
+                        <option value="benevole">Un(e) bénévole</option>
+                    </select>
+                </div>
 
-  <footer>
-    <p>&copy; 2025 GénérAction</p>
-  </footer>
+                <div class="form-group">
+                    <label for="firstname">Prénom</label>
+                    <input 
+                        type="text" 
+                        id="firstname" 
+                        name="firstname" 
+                        required 
+                        placeholder="Votre prénom"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Nom</label>
+                    <input 
+                        type="text" 
+                        id="lastname" 
+                        name="lastname" 
+                        required 
+                        placeholder="Votre nom"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        placeholder="votre.email@exemple.fr"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="Choisissez un mot de passe"
+                        minlength="8"
+                    >
+                    <small class="form-help">
+                        Au moins 8 caractères
+                    </small>
+                </div>
+
+                <div class="form-error" id="registerError"></div>
+
+                <button type="submit" class="btn btn-primary">
+                    Créer mon compte
+                </button>
+
+                <p class="auth-links">
+                    <a href="login.html" class="btn btn-link">
+                        J'ai déjà un compte
+                    </a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 GénérAction</p>
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">Aide</a>
+                <a href="#" class="footer-link">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
 </body>
 </html>

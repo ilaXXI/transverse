@@ -1,130 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GénérAction</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenerAction - Connectons les générations</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <img src="generaction.png" alt="Logo GénérAction" class="logo">
-    <nav id="mainNav"></nav>
-  </header>
+    <header>
+        <div class="header-content">
+            <img src="logo.png" alt="GenerAction" class="logo">
+            <nav id="mainNav">
+                <!-- Navigation injectée par JavaScript -->
+            </nav>
+        </div>
+    </header>
 
-  <main id="content">
-    <!-- Contenu dynamiquement injecté par JavaScript -->
-  </main>
+    <main id="content">
+        <div id="loading" class="centered">
+            <div class="loader"></div>
+            <p>Chargement...</p>
+        </div>
+    </main>
 
-  <footer>
-    <p>&copy; 2025 GénérAction</p>
-  </footer>
-
-  <script>
-    // Dynamique : vérification login, navigation, etc.
-    const pages = {
-      senior: `
-        <h2>Tableau de bord Senior</h2>
-        <section>
-          <h3>Mes événements</h3>
-          <ul id="evenements-senior"></ul>
-        </section>
-        <section>
-          <h3>Participer à un événement</h3>
-          <div class="event-cards" id="eventList">
-            <!-- Activités avec images -->
-          </div>
-        </section>
-      `,
-      benevole: `
-        <h2>Tableau de bord Bénévole</h2>
-        <section>
-          <h3>Mes événements</h3>
-          <ul id="evenements-benevole"></ul>
-        </section>
-        <section>
-          <h3>Créer un événement</h3>
-          <form id="createEventForm">
-            <label>Nom de l'événement <input type="text" required></label>
-            <label>Date <input type="date" required></label>
-            <label>Heure <input type="time" required></label>
-            <label>Places disponibles <input type="number" required></label>
-            <label>Description <textarea></textarea></label>
-            <button type="submit">Créer</button>
-          </form>
-        </section>
-        <section>
-          <h3>Templates d'événements</h3>
-          <button onclick="creerDepuisTemplate('Visite au musée')">Visite au musée</button>
-        </section>
-      `,
-      login: `
-        <h2>Connexion</h2>
-        <form id="loginForm">
-          <label>Nom d'utilisateur <input type="text" id="username" required></label>
-          <label>Mot de passe <input type="password" id="password" required></label>
-          <button type="submit">Se connecter</button>
-          <p id="loginError"></p>
-        </form>
-        <p><a href="register.html">Pas encore de compte ?</a></p>
-      `
-    };
-
-    const main = document.getElementById("content");
-    const nav = document.getElementById("mainNav");
-
-    const userType = localStorage.getItem("userType");
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
-    if (!isLoggedIn && location.pathname.includes("index.html")) {
-      window.location.href = "login.html";
-    } else if (isLoggedIn) {
-      nav.innerHTML = `
-        <a href="index.html">Accueil</a>
-        <a href="#" id="logout">Déconnexion</a>
-      `;
-      document.getElementById("logout").onclick = () => {
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("userType");
-        location.href = "login.html";
-      };
-
-      if (userType === "senior") {
-        main.innerHTML = pages.senior;
-        loadEvents("senior");
-      } else if (userType === "benevole") {
-        main.innerHTML = pages.benevole;
-        loadEvents("benevole");
-      }
-    } else if (location.pathname.includes("login.html")) {
-      main.innerHTML = pages.login;
-      document.getElementById("loginForm").onsubmit = function(e) {
-        e.preventDefault();
-        const u = document.getElementById("username").value;
-        const p = document.getElementById("password").value;
-        if (u === "senior" && p === "senior123") {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userType", "senior");
-          location.href = "index.html";
-        } else if (u === "benevole" && p === "benevole123") {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userType", "benevole");
-          location.href = "index.html";
-        } else {
-          document.getElementById("loginError").textContent = "Identifiants incorrects.";
-        }
-      };
-    }
-
-    function loadEvents(type) {
-      const list = document.getElementById(`evenements-${type}`);
-      list.innerHTML = `<li>Exemple d'événement pour ${type}</li>`;
-    }
-
-    function creerDepuisTemplate(nom) {
-      alert(`Événement « ${nom} » créé à partir du template.`);
-    }
-  </script>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 GenerAction</p>
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">À propos</a>
+                <a href="#" class="footer-link">Confidentialité</a>
+                <a href="#" class="footer-link">Contact</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

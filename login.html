@@ -1,111 +1,73 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Connexion - GénérAction</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .auth-wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
-    }
-
-    .auth-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-    }
-
-    .auth-box {
-      background: #fff;
-      padding: 2em 3em;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .auth-box h2 {
-      margin-bottom: 1.5em;
-      text-align: center;
-    }
-
-    .auth-box form {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-    }
-
-    .auth-box label {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-
-    .auth-box input {
-      font-size: 1em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-top: 0.3em;
-    }
-
-    .auth-box button {
-      padding: 0.8em;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-
-    .auth-box button:hover {
-      background-color: #0056b3;
-    }
-
-    .auth-box .error {
-      color: red;
-      font-size: 0.9em;
-    }
-
-    .auth-box .switch {
-      text-align: center;
-      margin-top: 1em;
-    }
-  </style>
-  <script defer src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - GenerAction</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-wrapper">
-  <header>
-    <img src="generaction.png" alt="Logo Généraction" class="logo">
-  </header>
+<body class="auth-page">
+    <header>
+        <div class="header-content">
+            <a href="login.html">
+                <img src="logo.png" alt="GenerAction" class="logo">
+            </a>
+        </div>
+    </header>
 
-  <main class="auth-container">
-    <div class="auth-box">
-      <h2>Connexion</h2>
-      <form id="loginForm">
-        <label>
-          Nom d'utilisateur
-          <input type="text" id="username" required>
-        </label>
-        <label>
-          Mot de passe
-          <input type="password" id="password" required>
-        </label>
-        <button type="submit">Se connecter</button>
-        <p class="error" id="loginError"></p>
-      </form>
-      <div class="switch">
-        <p>Pas encore de compte ? <a href="register.html">Créer un compte</a></p>
-      </div>
-    </div>
-  </main>
+    <main class="auth-container">
+        <div class="auth-box">
+            <h1>Bienvenue sur GenerAction</h1>
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Identifiant</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        required 
+                        autocomplete="username"
+                        placeholder="Votre identifiant"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        autocomplete="current-password"
+                        placeholder="Votre mot de passe"
+                    >
+                </div>
 
-  <footer>
-    <p>&copy; 2025 GénérAction</p>
-  </footer>
+                <div class="form-error" id="loginError"></div>
+
+                <button type="submit" class="btn btn-primary">
+                    Se connecter
+                </button>
+
+                <p class="auth-links">
+                    <a href="register.html" class="btn btn-link">
+                        Je n'ai pas encore de compte
+                    </a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 GénérAction</p>
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">Aide</a>
+                <a href="#" class="footer-link">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
 </body>
 </html>
