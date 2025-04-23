@@ -670,3 +670,28 @@ footer {
 #logout:hover {
     background: var(--primary-dark);
 }
+
+/* Ajouter ces styles */
+.edit-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#editEventForm {
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+}
+
+#editEventForm .form-group {
+    margin-bottom: 1rem;
+}
+
+#editEventForm input,
+#editEventForm select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}

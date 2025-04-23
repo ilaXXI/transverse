@@ -270,6 +270,94 @@ function formatDate(dateStr) {
     });
 }
 
+function renderEditForm(event) {
+    return `
+        <form id="editEventForm" class="event-form">
+            <div class="form-group">
+                <label for="editEventTitle">Titre</label>
+                <input type="text" id="editEventTitle" value="${event.title}" required>
+            </div>
+            <div class="form-group">
+                <label for="editEventDate">Date</label>
+                <input type="date" id="editEventDate" value="${event.date}" required>
+            </div>
+            <div class="form-group">
+                <label for="editEventTime">Heure</label>
+                <input type="time" id="editEventTime" value="${event.time}" required>
+            </div>
+            <div class="form-group">
+                <label for="editEventCategory">Catégorie</label>
+                <select id="editEventCategory" required>
+                    <option value="culture" ${event.category === 'culture' ? 'selected' : ''}>Culture</option>
+                    <option value="sport" ${event.category === 'sport' ? 'selected' : ''}>Sport</option>
+                    <option value="loisirs" ${event.category === 'loisirs' ? 'selected' : ''}>Loisirs</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editEventPlaces">Nombre de places</label>
+                <input type="number" id="editEventPlaces" value="${event.places}" required min="1" max="8">
+            </div>
+            <div class="form-group">
+                <label for="editEventLocation">Lieu</label>
+                <input type="text" id="editEventLocation" value="${event.location}" required>
+            </div>
+            <div class="edit-buttons">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <button type="button" class="btn btn-danger" id="cancelEdit">Annuler</button>
+            </div>
+        </form>
+    `;
+}
+
+function handleEditEvent(eventId) {
+    const event = mockEvents.find(e => e.id === parseInt(eventId));
+    if (event) {
+        const eventCard = document.querySelector(`.event-card[data-id="${eventId}"]`);
+        const originalContent = eventCard.innerHTML;
+        eventCard.innerHTML = renderEditForm(event);
+
+        const editForm = document.getElementById('editEventForm');
+        const cancelButton = document.getElementById('cancelEdit');
+
+        cancelButton.addEventListener('click', () => {
+            eventCard.innerHTML = originalContent;
+            attachEventListeners();
+        });
+
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Mettre à jour l'événement
+            event.title = document.getElementById('editEventTitle').value;
+            event.date = document.getElementById('editEventDate').value;
+            event.time = document.getElementById('editEventTime').value;
+            event.category = document.getElementById('editEventCategory').value;
+            event.places = parseInt(document.getElementById('editEventPlaces').value);
+            event.location = document.getElementById('editEventLocation').value;
+
+            // Mettre à jour la carte de l'événement avec le nouveau contenu
+            eventCard.innerHTML = `
+                <h3>${event.title}</h3>
+                <p>📅 ${formatDate(event.date)} à ${event.time}</p>
+                <p>👥 Inscrits: ${countRegistered(event)}/${event.places}</p>
+                <div class="event-actions">
+                    <button class="btn btn-secondary edit-btn" data-id="${event.id}">
+                        ✏️ Modifier
+                    </button>
+                    <button class="contact-btn" data-id="${event.id}">
+                        📧 Contacter les participants
+                    </button>
+                </div>
+            `;
+
+            // Réattacher les événements pour cette carte
+            attachEventListeners();
+
+            showNotification(`L'activité "${event.title}" a été modifiée avec succès`);
+        });
+    }
+}
+
 function renderSeniorDashboard() {
     return `
         <div class="dashboard">
@@ -334,7 +422,7 @@ function renderBenevoleDashboard() {
                     <h2>Mes activités</h2>
                     <div class="events-list">
                         ${mockEvents.filter(e => e.organizer === "Marie").map(event => `
-                            <div class="event-card">
+                            <div class="event-card" data-id="${event.id}">
                                 <h3>${event.title}</h3>
                                 <p>📅 ${formatDate(event.date)} à ${event.time}</p>
                                 <p>👥 Inscrits: ${countRegistered(event)}/${event.places}</p>
@@ -437,6 +525,13 @@ function attachEventListeners() {
         });
     });
 
+    const editButtons = document.querySelectorAll('.edit-btn');
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            handleEditEvent(btn.dataset.id);
+        });
+    });
+
     attachMessageEvents(localStorage.getItem('userType'));
 }
 
@@ -464,18 +559,6 @@ function attachFilterEvents() {
     });
 }
 
-function attachTemplateEvents() {
-    const templateButtons = document.querySelectorAll('.template-btn');
-    templateButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const template = eventTemplates[btn.dataset.template];
-            if (template) {
-                fillTemplateForm(template);
-            }
-        });
-    });
-}
-
 const eventTemplates = {
     museum: {
         title: "Visite de musée",
@@ -496,6 +579,57 @@ const eventTemplates = {
         places: 4
     }
 };
+
+function attachTemplateEvents() {
+    const templateButtons = document.querySelectorAll('.template-btn');
+    templateButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const template = eventTemplates[btn.dataset.template];
+            if (template) {
+                fillTemplateForm(template);
+            }
+        });
+    });
+}
+
+function attachCreateEventFormEvents() {
+    const createEventForm = document.getElementById('createEventForm');
+    if (createEventForm) {
+        createEventForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Récupérer les valeurs du formulaire
+            const newEvent = {
+                id: Math.max(...mockEvents.map(e => e.id)) + 1,
+                title: document.getElementById('eventTitle').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                category: document.getElementById('eventCategory').value,
+                places: parseInt(document.getElementById('eventPlaces').value),
+                organizer: "Marie",
+                registered: false,
+                location: "À définir" // Pour le prototype
+            };
+
+            // Ajouter le nouvel événement à la liste
+            mockEvents.push(newEvent);
+
+            // Rafraîchir l'affichage
+            document.getElementById('content').innerHTML = renderBenevoleDashboard();
+            
+            // Réattacher tous les événements
+            attachTemplateEvents();
+            attachEventListeners();
+            attachCreateEventFormEvents();
+
+            // Notification de confirmation
+            showNotification(`L'activité "${newEvent.title}" a été créée avec succès`);
+
+            // Réinitialiser le formulaire
+            createEventForm.reset();
+        });
+    }
+}
 
 function filterEvents(category) {
     const eventCards = document.querySelectorAll('.event-card');
@@ -737,14 +871,17 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("userType");
         window.location.href = "login.html";
     });
-
+    
     // Rendu du dashboard selon le type d'utilisateur
     const main = document.getElementById("content");
     main.innerHTML = userType === "senior" ? renderSeniorDashboard() : renderBenevoleDashboard();
+    
+    // Attacher les événements après le rendu
     if (userType === "senior") {
         attachFilterEvents();
     } else {
         attachTemplateEvents();
+        attachCreateEventFormEvents();
     }
     attachEventListeners();
 });
